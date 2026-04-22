@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wanderlust — A Travel Journal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ======= HERO ======= -->
+  <div id="hero">
+    <h1>✈ Wanderlust</h1>
+    <p class="tagline">Collecting moments, not things.</p>
+  </div>
+
+  <!-- ======= STICKY NAVIGATION ======= -->
+  <nav id="navbar">
+    <a href="index.html">🏠 Home</a>
+    <a href="#destinations">Destinations</a>
+    <a href="#tips">Travel Tips</a>
+    <a href="#video">Watch</a>
+    <a href="#data">Explore Data</a>
+    <a href="app.html">🎮 Trivia Game</a>
+  </nav>
+
+  <!-- ======= DESTINATIONS ======= -->
+  <section class="section" id="destinations">
+    <h2>Dream Destinations</h2>
+    <p>Every corner of the world holds a new story. Here are a few places that have stolen my heart — and might steal yours too.</p>
+
+    <!-- DIV 1: Destination Cards Grid -->
+    <div id="destinations-div">
+
+      <div class="destination-card">
+        <img
+          src="https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=600&q=80"
+          alt="Kyoto, Japan — bamboo grove"
+        />
+        <div class="card-body">
+          <h3>Kyoto, Japan</h3>
+          <p>Ancient temples, bamboo forests, and cherry blossoms — Kyoto is a living poem. Visit in spring for the full sakura experience.</p>
+        </div>
+      </div>
+
+      <div class="destination-card">
+        <img
+          src="https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?w=600&q=80"
+          alt="Santorini, Greece — blue domes"
+        />
+        <div class="card-body">
+          <h3>Santorini, Greece</h3>
+          <p>Iconic whitewashed walls, blazing sunsets over the caldera, and the freshest seafood you'll ever taste. Pure magic.</p>
+        </div>
+      </div>
+
+      <div class="destination-card">
+        <img
+          src="https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=600&q=80"
+          alt="Patagonia, Argentina — mountains"
+        />
+        <div class="card-body">
+          <h3>Patagonia, Argentina</h3>
+          <p>Jagged peaks, glaciers, and absolute silence. If you want to feel truly small — in the best way — go to Patagonia.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======= INSPIRATIONAL QUOTE ======= -->
+  <div class="quote-block">
+    "The world is a book, and those who do not travel read only one page."
+    <span>— Saint Augustine</span>
+  </div>
+
+  <!-- ======= TRAVEL TIPS ======= -->
+  <section class="section" id="tips">
+    <h2>Essential Travel Tips</h2>
+
+    <!-- DIV 2: Tips Box (with nested list — ordered + unordered) -->
+    <div id="tips-div">
+      <ol>
+        <li>
+          <strong>Pack smart, not heavy.</strong>
+          <ul>
+            <li>Roll clothes instead of folding to save space</li>
+            <li>Use packing cubes to stay organized</li>
+            <li>Pack a universal power adapter</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Stay connected without roaming fees.</strong>
+          <ul>
+            <li>Buy a local SIM card upon arrival</li>
+            <li>Download offline maps before you leave home</li>
+            <li>Use WhatsApp or Signal for international calls</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Eat like a local.</strong>
+          <ul>
+            <li>Skip tourist-trap restaurants near landmarks</li>
+            <li>Look for spots where locals actually eat</li>
+            <li>Try the street food — it's usually the best</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Keep your documents safe.</strong>
+          <ul>
+            <li>Store digital copies of your passport in the cloud</li>
+            <li>Use a money belt or hidden pouch in crowded areas</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Embrace spontaneity.</strong>
+          <ul>
+            <li>Leave gaps in your itinerary for unexpected adventures</li>
+            <li>Say yes to things that scare you a little</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ======= VIDEO SECTION ======= -->
+  <section class="section" id="video">
+    <h2>Watch the World</h2>
+    <p>Sometimes the best way to dream about a destination is to see it in motion. Here's a stunning look at some of the world's most breathtaking places.</p>
+
+    <!-- DIV 3: Video wrapper -->
+    <div id="video-div">
+      <h3>🌍 Earth in Stunning 4K</h3>
+      <!-- Embedded YouTube video -->
+      <div class="video-container">
+        <iframe
+          src="https://www.youtube.com/embed/6v2L2UGZJAM"
+          title="Earth from Space 4K"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= TABLEAU DATA VIZ ======= -->
+  <section class="section" id="data">
+    <h2>Global Tourism Data</h2>
+    <p>Travel is one of the world's largest industries. Explore this interactive visualization of international tourist arrivals by country and region.</p>
+
+    <!-- DIV 4: Tableau container -->
+    <div id="tableau-div">
+      <p>🗺️ Interact with the chart below — hover over countries, filter by year, and explore tourism trends worldwide.</p>
+      <!-- Tableau Public Embed -->
+      <div class='tableauPlaceholder' id='viz1' style='position: relative'>
+        <noscript>
+          <a href='#'>
+            <img alt='International Tourism' src='https://public.tableau.com/static/images/In/InternationalTourism_16858048700350/Dashboard1/1_rss.png' style='border: none' />
+          </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+          <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+          <param name='embed_code_version' value='3' />
+          <param name='site_root' value='' />
+          <param name='name' value='WorldTourismStats/TourismDashboard' />
+          <param name='tabs' value='no' />
+          <param name='toolbar' value='yes' />
+          <param name='animate_transition' value='yes' />
+          <param name='display_static_image' value='yes' />
+          <param name='display_spinner' value='yes' />
+          <param name='display_overlay' value='yes' />
+          <param name='display_count' value='yes' />
+          <param name='language' value='en-US' />
+        </object>
+      </div>
+      <script type='text/javascript'>
+        var divElement = document.getElementById('viz1');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+        if (divElement.offsetWidth > 800) {
+          vizElement.style.width = '100%';
+          vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
+        } else {
+          vizElement.style.width = '100%';
+          vizElement.style.height = '500px';
+        }
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+      </script>
+      <p style="font-size:0.8rem; color:#888; margin-top:12px;">
+        Source: World Bank / Tableau Public. If the interactive chart doesn't load, 
+        <a href="https://public.tableau.com/app/discover" target="_blank">browse Tableau Public</a> for travel-related visualizations.
+      </p>
+    </div>
+  </section>
+
+  <!-- ======= ON-PAGE ANCHOR TARGET ======= -->
+  <section class="section" id="bucket-list">
+    <h2>My Bucket List</h2>
+    <p>These are the places still on my list — the ones I dream about on Monday mornings.</p>
+    <ol style="padding-left: 22px; margin-top: 16px;">
+      <li style="margin-bottom: 10px;">See the Northern Lights in Iceland 🇮🇸</li>
+      <li style="margin-bottom: 10px;">Trek to Machu Picchu, Peru 🇵🇪</li>
+      <li style="margin-bottom: 10px;">Safari in the Serengeti, Tanzania 🇹🇿</li>
+      <li style="margin-bottom: 10px;">Island-hop through the Philippines 🇵🇭</li>
+      <li style="margin-bottom: 10px;">Explore the Amalfi Coast, Italy 🇮🇹</li>
+    </ol>
+    <!-- Anchor link back to top -->
+    <p style="margin-top: 30px;">
+      <a href="#hero" style="color: var(--ocean); font-weight: 700; text-decoration: none;">↑ Back to the top</a>
+      &nbsp;|&nbsp;
+      <a href="#tips" style="color: var(--ocean); font-weight: 700; text-decoration: none;">Jump to Travel Tips</a>
+    </p>
+  </section>
+
+  <!-- ======= FOOTER ======= -->
+  <footer>
+    <p>Made with ❤️ and wanderlust &nbsp;|&nbsp;
+      <a href="index.html">Professional Portfolio</a> &nbsp;|&nbsp;
+      <a href="app.html">Travel Trivia Game</a>
+    </p>
+    <p style="margin-top:8px; font-size:0.8rem;">© 2025 — All rights reserved</p>
+  </footer>
+
+</body>
+</html>

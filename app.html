@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Traveler Trivia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --deep: #0d3d52;
+      --ocean: #1a6b8a;
+      --coral: #e07b54;
+      --sand: #f5e6c8;
+      --white: #ffffff;
+      --success: #2a9d8f;
+      --danger: #e63946;
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: linear-gradient(135deg, var(--deep) 0%, #1a6b8a 50%, #2a9d8f 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: var(--white);
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px 10px;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      color: var(--sand);
+      letter-spacing: 1px;
+    }
+
+    header p {
+      color: #a8d8e8;
+      font-size: 1rem;
+      margin-top: 8px;
+      font-weight: 300;
+    }
+
+    .back-link {
+      margin-top: 12px;
+      display: inline-block;
+      color: var(--coral);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 0.75; }
+
+    /* --- Game container --- */
+    #game-container {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      max-width: 680px;
+      width: 100%;
+      margin: 28px auto;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    /* --- Progress bar --- */
+    #progress-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      font-size: 0.85rem;
+      color: #a8d8e8;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    #progress-bar-outer {
+      height: 6px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 3px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    #progress-bar-inner {
+      height: 100%;
+      background: var(--coral);
+      border-radius: 3px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* --- Question area --- */
+    #question-emoji {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    #question-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      text-align: center;
+      color: var(--white);
+      margin-bottom: 30px;
+      line-height: 1.5;
+      min-height: 60px;
+    }
+
+    /* --- Answer buttons --- */
+    #answers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .answer-btn {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      color: var(--white);
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      padding: 16px 12px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .answer-btn:hover:not(:disabled) {
+      background: rgba(255,255,255,0.2);
+      border-color: var(--sand);
+      transform: translateY(-2px);
+    }
+
+    .answer-btn.correct {
+      background: var(--success);
+      border-color: var(--success);
+      transform: scale(1.03);
+    }
+
+    .answer-btn.wrong {
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .answer-btn:disabled {
+      cursor: default;
+    }
+
+    /* --- Feedback message --- */
+    #feedback {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 1rem;
+      min-height: 28px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: opacity 0.3s;
+    }
+
+    #feedback.correct { color: #6ee7b7; }
+    #feedback.wrong   { color: #fca5a5; }
+
+    /* --- Next / Play Again button --- */
+    #next-btn {
+      display: none;
+      margin: 26px auto 0;
+      background: var(--coral);
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      padding: 14px 48px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    #next-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+
+    /* --- Score screen --- */
+    #score-screen {
+      display: none;
+      text-align: center;
+    }
+
+    #score-screen .trophy { font-size: 5rem; margin-bottom: 16px; }
+    #score-screen h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--sand);
+      margin-bottom: 10px;
+    }
+    #score-screen .final-score {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--coral);
+      margin: 10px 0;
+    }
+    #score-screen p {
+      color: #a8d8e8;
+      font-size: 1rem;
+      margin-bottom: 28px;
+    }
+
+    #play-again-btn {
+      background: var(--coral);
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      padding: 14px 48px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    #play-again-btn:hover { opacity: 0.85; }
+
+    /* --- Streak badge --- */
+    #streak-badge {
+      text-align: center;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+      color: #fcd34d;
+      min-height: 22px;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 520px) {
+      #answers-grid { grid-template-columns: 1fr; }
+      header h1 { font-size: 2rem; }
+      #game-container { padding: 28px 20px; }
+      #question-text { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🌍 World Traveler Trivia</h1>
+    <p>How well do you know our planet? Test your geography knowledge!</p>
+    <a class="back-link" href="scratch.html">← Back to Travel Page</a>
+  </header>
+
+  <div id="game-container">
+    <!-- Quiz area -->
+    <div id="quiz-area">
+      <div id="progress-wrap">
+        <span id="q-counter">Question 1 / 15</span>
+        <span id="score-display">Score: 0</span>
+      </div>
+      <div id="progress-bar-outer">
+        <div id="progress-bar-inner"></div>
+      </div>
+
+      <div id="streak-badge"></div>
+
+      <span id="question-emoji">✈️</span>
+      <p id="question-text">Loading question...</p>
+
+      <div id="answers-grid"></div>
+      <p id="feedback"></p>
+      <button id="next-btn">Next Question →</button>
+    </div>
+
+    <!-- Score screen -->
+    <div id="score-screen">
+      <div class="trophy" id="trophy-emoji">🏆</div>
+      <h2 id="result-title">Incredible!</h2>
+      <div class="final-score" id="final-score-display">0 / 15</div>
+      <p id="result-message">You're a true world traveler!</p>
+      <button id="play-again-btn" onclick="startGame()">Play Again ✈️</button>
+    </div>
+  </div>
+
+  <script>
+    const ALL_QUESTIONS = [
+      { emoji: "🗼", q: "What is the capital city of France?", answers: ["Paris", "Lyon", "Marseille", "Bordeaux"], correct: 0 },
+      { emoji: "🗻", q: "Which is the tallest mountain in the world?", answers: ["K2", "Kangchenjunga", "Mount Everest", "Lhotse"], correct: 2 },
+      { emoji: "🌊", q: "What is the largest ocean on Earth?", answers: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"], correct: 3 },
+      { emoji: "🦁", q: "The Serengeti is located in which country?", answers: ["Kenya", "Tanzania", "South Africa", "Botswana"], correct: 1 },
+      { emoji: "🎌", q: "What is the capital of Japan?", answers: ["Osaka", "Kyoto", "Tokyo", "Hiroshima"], correct: 2 },
+      { emoji: "🌮", q: "Cancún is a famous beach resort city in which country?", answers: ["Cuba", "Colombia", "Brazil", "Mexico"], correct: 3 },
+      { emoji: "🏯", q: "The Great Wall is located in which country?", answers: ["Japan", "South Korea", "Mongolia", "China"], correct: 3 },
+      { emoji: "🕌", q: "The Eiffel Tower was built to celebrate what event?", answers: ["World War I armistice", "French Revolution centennial", "Napoleon's coronation", "The French Republic founding"], correct: 1 },
+      { emoji: "🦘", q: "Which country is known as 'The Land Down Under'?", answers: ["New Zealand", "Papua New Guinea", "South Africa", "Australia"], correct: 3 },
+      { emoji: "🌉", q: "The Golden Gate Bridge is located in which US city?", answers: ["Los Angeles", "Seattle", "San Francisco", "Portland"], correct: 2 },
+      { emoji: "🏝️", q: "Which archipelago country has over 7,000 islands?", answers: ["Indonesia", "Maldives", "Philippines", "Japan"], correct: 2 },
+      { emoji: "🌋", q: "Which country has the most volcanoes in the world?", answers: ["Chile", "Japan", "Iceland", "Indonesia"], correct: 3 },
+      { emoji: "🎭", q: "The ancient Colosseum is located in which city?", answers: ["Athens", "Rome", "Madrid", "Istanbul"], correct: 1 },
+      { emoji: "🐧", q: "Which continent has NO permanent human residents?", answers: ["Antarctica", "Oceania", "Arctic", "Greenland"], correct: 0 },
+      { emoji: "🛕", q: "Angkor Wat, the world's largest religious monument, is in which country?", answers: ["Thailand", "Vietnam", "Laos", "Cambodia"], correct: 3 },
+      { emoji: "🏔️", q: "The Andes mountain range runs through how many countries?", answers: ["4", "5", "7", "9"], correct: 2 },
+      { emoji: "🌅", q: "Which African country's flag features a Maasai shield and spears?", answers: ["Tanzania", "Uganda", "Kenya", "Ethiopia"], correct: 2 },
+      { emoji: "🗽", q: "The Statue of Liberty was a gift to the USA from which country?", answers: ["England", "France", "Italy", "Spain"], correct: 1 },
+      { emoji: "🏜️", q: "The Sahara Desert spans across how many countries?", answers: ["5", "8", "11", "14"], correct: 2 },
+      { emoji: "🌺", q: "Which Hawaiian island is nicknamed 'The Garden Isle'?", answers: ["Maui", "Oahu", "Kauai", "Big Island"], correct: 2 },
+    ];
+
+    let questions = [];
+    let current = 0;
+    let score = 0;
+    let streak = 0;
+    let answered = false;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function startGame() {
+      questions = shuffle(ALL_QUESTIONS).slice(0, 15);
+      current = 0;
+      score = 0;
+      streak = 0;
+      answered = false;
+      document.getElementById('score-screen').style.display = 'none';
+      document.getElementById('quiz-area').style.display = 'block';
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      answered = false;
+      const q = questions[current];
+      const total = questions.length;
+
+      document.getElementById('q-counter').textContent = `Question ${current + 1} / ${total}`;
+      document.getElementById('score-display').textContent = `Score: ${score}`;
+      document.getElementById('progress-bar-inner').style.width = `${(current / total) * 100}%`;
+      document.getElementById('question-emoji').textContent = q.emoji;
+      document.getElementById('question-text').textContent = q.q;
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('feedback').className = '';
+      document.getElementById('next-btn').style.display = 'none';
+
+      // Streak badge
+      const badge = document.getElementById('streak-badge');
+      if (streak >= 3) {
+        badge.textContent = `🔥 ${streak} in a row!`;
+      } else {
+        badge.textContent = '';
+      }
+
+      const grid = document.getElementById('answers-grid');
+      grid.innerHTML = '';
+
+      q.answers.forEach((ans, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'answer-btn';
+        btn.textContent = ans;
+        btn.onclick = () => selectAnswer(idx);
+        grid.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(idx) {
+      if (answered) return;
+      answered = true;
+
+      const q = questions[current];
+      const btns = document.querySelectorAll('.answer-btn');
+      btns.forEach(b => b.disabled = true);
+
+      const feedback = document.getElementById('feedback');
+      if (idx === q.correct) {
+        btns[idx].classList.add('correct');
+        score++;
+        streak++;
+        feedback.textContent = streak >= 3
+          ? `🔥 Correct! ${streak}-answer streak!`
+          : '✅ Correct!';
+        feedback.className = 'correct';
+      } else {
+        btns[idx].classList.add('wrong');
+        btns[q.correct].classList.add('correct');
+        streak = 0;
+        feedback.textContent = `❌ Nope! The answer is: ${q.answers[q.correct]}`;
+        feedback.className = 'wrong';
+      }
+
+      document.getElementById('score-display').textContent = `Score: ${score}`;
+
+      const nextBtn = document.getElementById('next-btn');
+      if (current < questions.length - 1) {
+        nextBtn.textContent = 'Next Question →';
+      } else {
+        nextBtn.textContent = 'See My Results 🏆';
+      }
+      nextBtn.style.display = 'block';
+    }
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+      current++;
+      if (current < questions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    function showResults() {
+      document.getElementById('quiz-area').style.display = 'none';
+      const screen = document.getElementById('score-screen');
+      screen.style.display = 'block';
+
+      const total = questions.length;
+      const pct = score / total;
+
+      document.getElementById('final-score-display').textContent = `${score} / ${total}`;
+
+      let trophy, title, msg;
+      if (pct === 1)        { trophy = '🏆'; title = 'Perfect Score!';      msg = 'You\'re a certified world explorer. Nothing escapes you!'; }
+      else if (pct >= 0.8)  { trophy = '✈️'; title = 'Frequent Flyer!';      msg = 'Incredible knowledge — book your next adventure now!'; }
+      else if (pct >= 0.6)  { trophy = '🗺️'; title = 'Globetrotter!';        msg = 'Great job! A few more stamps in that passport and you\'ll be unstoppable.'; }
+      else if (pct >= 0.4)  { trophy = '🧳'; title = 'Weekend Wanderer';     msg = 'Not bad! Keep exploring and those geography skills will soar.'; }
+      else                  { trophy = '📍'; title = 'Time to Explore!';     msg = 'The world is waiting for you. Start packing!'; }
+
+      document.getElementById('trophy-emoji').textContent = trophy;
+      document.getElementById('result-title').textContent = title;
+      document.getElementById('result-message').textContent = msg;
+    }
+
+    // Kick things off
+    startGame();
+  </script>
+
+</body>
+</html>
